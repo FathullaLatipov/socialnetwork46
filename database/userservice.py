@@ -87,3 +87,27 @@ def delete_user_db(user_id):
 #Добавить фото профиля
 def upload_profile_photo_db(user_id, photo_path):
     db = next(get_db())
+
+    exact_user = get_exact_user_db(user_id)
+
+    if exact_user:
+        exact_user.profile_photo = photo_path
+        db.commit()
+
+        return 'Фото профился добавлен!'
+    else:
+        return 'Пользователь не найден'
+
+# Удаления фото профиля
+def delete_profile_photo_db(user_id):
+    db = next(get_db())
+
+    exact_user = get_exact_user_db(user_id)
+
+    if exact_user:
+        exact_user.profile_photo = 'None'
+        db.commit()
+
+        return "Фото профиля удален"
+    else:
+        return "Пользователь не найден(("
