@@ -39,5 +39,18 @@ class PostPhoto(Base):
 
     post_fk = relationship(UserPost, lazy='subquery')
 
+
 # Дз сделать таблицу для комментарий ДЗ! 10 отжиманий
-# class PostComment(Base)
+class PostComment(Base):
+    __tablename__ = 'post_comments'
+    comment_id = Column(Integer, primary_key=True, autoincrement=True)
+
+    post_id = Column(Integer, ForeignKey("user_posts.post_id"))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+
+    comment_text = Column(Text)
+    publish_date = Column(DateTime)
+
+    user_fk = relationship(User, lazy="subquery")
+    post_fk = relationship(UserPost, lazy="subquery")
+    # likes
