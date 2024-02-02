@@ -35,7 +35,7 @@ def add_new_user_db(name, surname, phone_number, city, password):
         db.add(new_user)
         db.commit()
 
-        return 'Пользователь успешно зарегистрирован'
+        return f'Пользователь успешно зарегистрирован {new_user.user_id}'
 
 
 # Логин либо проверка пароля

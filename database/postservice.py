@@ -1,15 +1,27 @@
 from database.models import PostPhoto, UserPost
 from database import get_db
 
+
 # Получить все публикации
 def get_all_posts_db():
-    pass
-    # UserPost
+    db = next(get_db())
+
+    all_post = db.query(UserPost).all()
+
+    return all_post
+
 
 # Получить определенную публикацию
 def get_exact_post_db(post_id):
-    pass
-    # UserPost
+    db = next(get_db())
+
+    exact_user = db.query(UserPost).filter_by(post_id=post_id).first()
+
+    if exact_user:
+        return get_all_posts_db()
+    else:
+        return 'такой пост не найден:('
+
 
 # Добавить публикацию
 def add_new_post_db(user_id, post_text, publish_date):
@@ -20,6 +32,7 @@ def add_new_post_db(user_id, post_text, publish_date):
     db.commit()
 
     return f'Успешно {new_post.post_id}'
+
 
 # Изменить текст к публикации
 def edit_post_text_db(post_id, new_text):
@@ -35,6 +48,7 @@ def edit_post_text_db(post_id, new_text):
     else:
         return 'Пост не найден(('
 
+
 # Удаления публикацию
 def delete_post_db(post_id):
     db = next(get_db())
@@ -48,6 +62,7 @@ def delete_post_db(post_id):
         return 'Пост успешно удален!'
     else:
         return 'Пост не найден'
+
 
 # Добавить лайк к публикации
 def like_post_db(post_id):
@@ -63,6 +78,7 @@ def like_post_db(post_id):
     else:
         return 'Пост не найден(('
 
+
 # Удаления лайка из публикации
 def unlike_post_db(post_id):
     db = next(get_db())
@@ -77,6 +93,33 @@ def unlike_post_db(post_id):
     else:
         return 'Пост не найден(('
 
+
+# Диер 20
 # ДЗ Загрузить фотографии к определенному посту
-# def upload_post_photo_db() ---> PostPhoto()
-# НЕ сделаете 10 отжиманий без обид)
+def upload_post_photo_db(post_id, photo_path):
+    db = next(get_db())
+
+    new_photo = PostPhoto(post_id=post_id, photo_path=photo_path)
+
+    if new_photo:
+        db.add(new_photo)
+        db.commit()
+
+        return 'Фото к публикации добавлен'
+    else:
+        return 'Нету поста(('
+
+
+# Удаления фотографию в определенном посте
+def delete_post_photo_db(post_id, photo_path):
+    db = next(get_db())
+
+    new_photo = PostPhoto(post_id=post_id, photo_path=photo_path)
+
+    if new_photo:
+        db.delete(new_photo)
+        db.commit()
+
+        return 'Фото к публикации удален'
+    else:
+        return 'Нету поста(('
