@@ -123,3 +123,12 @@ def delete_post_photo_db(post_id, photo_path):
         return 'Фото к публикации удален'
     else:
         return 'Нету поста(('
+
+
+# Запрос на получении всех фотографий
+def all_photos_db():
+    db = next(get_db())
+
+    photos = db.query(PostPhoto).all()
+
+    return photos
